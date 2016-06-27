@@ -15,6 +15,7 @@ Classes:
     Rede
         Atributos:  - UREs[]
                     - Clientes[]
+                    - Fornecedores[]
                     - Lojas[]
                     - Produtos[]
                     
