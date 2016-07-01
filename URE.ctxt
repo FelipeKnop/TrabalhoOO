@@ -1,2 +1,4 @@
 #BlueJ class context
-numComments=0
+comment0.params=cidade\ posicao
+comment0.target=URE(java.lang.String,\ double[])
+numComments=1

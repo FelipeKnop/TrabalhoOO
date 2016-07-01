@@ -1,2 +1,4 @@
 #BlueJ class context
-numComments=0
+comment0.params=codigo\ nome\ precoVenda\ descricao
+comment0.target=Produto(int,\ java.lang.String,\ double,\ java.lang.String)
+numComments=1

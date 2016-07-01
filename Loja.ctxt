@@ -1,2 +1,4 @@
 #BlueJ class context
-numComments=0
+comment0.params=codigo\ posicao
+comment0.target=Loja(int,\ double[])
+numComments=1
