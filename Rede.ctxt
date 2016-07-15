@@ -1,4 +1,20 @@
 #BlueJ class context
 comment0.params=
 comment0.target=Rede()
-numComments=1
+comment1.params=codigo
+comment1.target=URE\ getURE(int)
+comment2.params=codigo
+comment2.target=GerenteDeEstoque\ getGerenteDeEstoque(int)
+comment3.params=codigo
+comment3.target=Loja\ getLoja(int)
+comment4.params=codigo
+comment4.target=Cliente\ getCliente(int)
+comment5.params=codigo
+comment5.target=Fornecedor\ getFornecedor(int)
+comment6.params=codigo
+comment6.target=Produto\ getProduto(int)
+comment7.params=codigo
+comment7.target=Funcionario\ getFuncionario(int)
+comment8.params=nome\ precoVenda\ descricao\ tipo
+comment8.target=void\ cadastrarProduto(java.lang.String,\ double,\ java.lang.String,\ java.lang.String)
+numComments=9

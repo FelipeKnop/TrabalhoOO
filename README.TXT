@@ -99,7 +99,6 @@ Classes:
             Atributos:  - Código
                         - Nome
                         - Produtos []
-                        // TODO: Diferenciar preços de fornecedor pra fornecedor
                         
             Métodos:    - Cadastrar produto
             

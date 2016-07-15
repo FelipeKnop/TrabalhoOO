@@ -1,4 +1,14 @@
 #BlueJ class context
 comment0.params=codigo\ nome
 comment0.target=Fornecedor(int,\ java.lang.String)
-numComments=1
+comment1.params=
+comment1.target=int\ getCodigo()
+comment2.params=
+comment2.target=java.lang.String\ getNome()
+comment3.params=nome
+comment3.target=void\ setNome(java.lang.String)
+comment4.params=codigo
+comment4.target=Produto\ getProduto(int)
+comment5.params=produto
+comment5.target=void\ cadastrarProduto(Produto)
+numComments=6
