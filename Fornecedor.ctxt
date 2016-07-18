@@ -10,5 +10,5 @@ comment3.target=void\ setNome(java.lang.String)
 comment4.params=codigo
 comment4.target=Produto\ getProduto(int)
 comment5.params=produto
-comment5.target=void\ cadastrarProduto(Produto)
+comment5.target=void\ cadastraProduto(Produto)
 numComments=6

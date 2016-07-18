@@ -49,7 +49,7 @@ public abstract class Produto {
         this.descricao = descricao;
     }
     
-    public void listarProduto () {
+    public void listaProduto () {
         System.out.println("Código: " + this.codigo);
         System.out.println("Nome: " + this.nome);
         System.out.println("Preço: " + this.precoVenda);

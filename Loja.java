@@ -54,9 +54,15 @@ public class Loja {
         return produtos.get(codigo);
     }
     
-    public void listarProdutos () {
+    public void cadastraProduto (Produto produto) {
+        if (produto != null) {
+            produtos.add(produto);
+        }
+    }
+    
+    public void listaProdutos () {
         for (Produto produto:produtos) {
-            produto.listarProduto();
+            produto.listaProduto();
         }
     }
     

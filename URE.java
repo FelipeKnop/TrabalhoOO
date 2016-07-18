@@ -8,7 +8,7 @@ public class URE {
     private List<Integer> quantidades;
     private GerenteDeEstoque gerenteDeEstoque;
     
-    public URE (int codigo, double[] posicao) {
+    public URE (int codigo, double[] posicao, String cidade) {
         this.codigo = codigo;
         this.posicao = posicao;
         this.cidade = cidade;
@@ -57,7 +57,20 @@ public class URE {
         this.gerenteDeEstoque = gerenteDeEstoque;
     }
     
-    public void comprarProduto (int codigoProduto, int codigoFornecedor, int quantidade) {
+    public void compraProduto (int codigoProduto, int codigoFornecedor, int quantidade) {
         //Setar preço de compra do produto
+    }
+    
+    public void cadastraProduto (Produto produto) {
+        if (produto != null) {
+            produtos.add(produto);
+        }
+    }
+    
+    public void listaProdutos () {
+        for (Produto produto : this.produtos) {
+            produto.listaProduto();
+            System.out.print("\n");
+        }
     }
 }

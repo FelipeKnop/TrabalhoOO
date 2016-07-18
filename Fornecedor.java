@@ -27,7 +27,7 @@ public class Fornecedor {
         return produtos.get(codigo);
     }
     
-    public void cadastrarProduto (Produto produto) {
+    public void cadastraProduto (Produto produto) {
         if (produto != null) {
             produtos.add(produto);
         }
