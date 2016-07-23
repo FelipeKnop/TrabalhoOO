@@ -1,90 +1,81 @@
-import java.util.*;
+import java.awt.Point;
+import java.util.ArrayList;
 
 public class Loja {
+
     private int codigo;
-    private double[] posicao;
-    private List<Funcionario> funcionarios;
-    private List<Produto> produtos;
-    private List<Integer> quantidades;
+    private String cidade;
+    private Point posicao;
     private double lucro;
-    
-    public Loja (int codigo, double[] posicao) {
+    private ArrayList<Produto> produtos;
+    private ArrayList<Funcionario> funcionarios;
+
+    public Loja(int codigo, String cidade, Point posicao) {
         this.codigo = codigo;
+        this.cidade = cidade;
         this.posicao = posicao;
-        this.funcionarios = new ArrayList<Funcionario>();
-        this.produtos = new ArrayList<Produto>();
-        quantidades = new ArrayList<Integer>();
         this.lucro = 0;
+        this.produtos = new ArrayList<>();
+        this.funcionarios = new ArrayList<>();
     }
-    
-    public int getCodigo () {
-        return this.codigo;
+
+    public int getCodigo() {
+        return codigo;
     }
-    
-    public double[] getPosicao () {
-        return this.posicao;
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
-    
-    public void setPosicao (double[] posicao) {
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public Point getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(Point posicao) {
         this.posicao = posicao;
     }
-    
-    public void setPosicao (double posicaoX, double posicaoY) {
-        double[] aux = {posicaoX, posicaoY};
-        this.posicao = aux;
+
+    public double getLucro() {
+        return lucro;
     }
-    
-    public int getQuantidade (int codigo) {
-        return quantidades.get(codigo);
-    }
-    
-    public double getLucro () {
-        return this.lucro;
-    }
-    
-    public void setLucro (double lucro) {
+
+    public void setLucro(double lucro) {
         this.lucro = lucro;
     }
     
-    public Funcionario getFuncionario (int codigo) {
-        return funcionarios.get(codigo);
+    public void aumentaLucro(double aumento) {
+        lucro += aumento;
+    }
+
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
     }
     
-    public Produto getProduto (int codigo) {
-        return produtos.get(codigo);
+    public void addProduto(Produto produto) {
+        produtos.add(produto);
+    }
+
+    public ArrayList<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
     
-    public void cadastraProduto (Produto produto) {
-        if (produto != null) {
-            produtos.add(produto);
-        }
-    }
-    
-    public void listaProdutos () {
-        for (Produto produto:produtos) {
-            produto.listaProduto();
-        }
-    }
-    
-    public int consultaEstoque (int codigoFuncionario, int codigoProduto) {
-        Funcionario funcionario = funcionarios.get(codigoFuncionario);
-        Produto produto = produtos.get(codigoProduto);
-        
-        if (funcionario != null) {
-            if (produto != null) {
-                int quantidade = this.getQuantidade(codigoProduto);
-                System.out.println("Existem " + quantidade + " unidades desse produto");
-                return quantidade;
-            } else {
-                System.out.println("Não existe esse produto no estoque. Solicite à URE");
-                return 0;
-            }
-        } else {
-            throw new IllegalArgumentException("Funcionário inválido");
-        }
-    }
-    
-    public void realizaVenda (int codigoCliente, int codigoProduto, int quantidade) {
-        
+    public void addFuncionario(Funcionario funcionario) {
+        funcionarios.add(funcionario);
     }
 }

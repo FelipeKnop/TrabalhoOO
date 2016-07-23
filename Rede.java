@@ -1,183 +1,174 @@
-import java.util.*;
+import java.awt.Point;
+import java.util.ArrayList;
 
 public class Rede {
-    private List<URE> UREs;
-    private List<GerenteDeEstoque> gerentesDeEstoque;
-    private List<Loja> lojas;
-    private List<Cliente> clientes;
-    private List<Fornecedor> fornecedores;
-    private List<Produto> produtos;
-    private List<Funcionario> funcionarios;
     
-    public Rede () {
-        this.UREs = new ArrayList<URE>(5);
-        this.gerentesDeEstoque = new ArrayList<GerenteDeEstoque>(5);
-        this.lojas = new ArrayList<Loja>(5);
-        this.clientes = new ArrayList<Cliente>();
-        this.fornecedores = new ArrayList<Fornecedor>();
-        this.produtos = new ArrayList<Produto>();
-        this.funcionarios = new ArrayList<Funcionario>();
+    private final ArrayList<URE> UREs;
+    private final ArrayList<Loja> lojas;
+    private final ArrayList<Cliente> clientes;
+    private final ArrayList<Fornecedor> fornecedores;
+    private final ArrayList<Funcionario> funcionarios;
+    private final ArrayList<GerenteDeEstoque> gerentesDeEstoque;
+    private final ArrayList<Produto> produtos;
+
+    public Rede() {
+        this.UREs = new ArrayList<>();
+        this.lojas = new ArrayList<>();
+        this.clientes = new ArrayList<>();
+        this.fornecedores = new ArrayList<>();
+        this.funcionarios = new ArrayList<>();
+        this.gerentesDeEstoque = new ArrayList<>();
+        this.produtos = new ArrayList<>();
     }
     
-    public URE getURE (int codigo) {
-        return UREs.get(codigo);
-    }
-    
-    public GerenteDeEstoque getGerenteDeEstoque (int codigo) {
-        return gerentesDeEstoque.get(codigo);
-    }
-    
-    public Loja getLoja (int codigo) {
-        return lojas.get(codigo);
-    }
-    
-    public Cliente getCliente (int codigo) {
-        return clientes.get(codigo);
-    }
-    
-    public Fornecedor getFornecedor (int codigo) {
-        return fornecedores.get(codigo);
-    }
-    
-    public Produto getProduto (int codigo) {
-        return produtos.get(codigo);
-    }
-    
-    public Funcionario getFuncionario (int codigo) {
-        return funcionarios.get(codigo);
-    }
-    
-    public void cadastraURE (double[] posicao, String cidade) {
-        int size = this.UREs.size();
-        if (size < 5) {
-            URE ure = new URE(size, posicao, cidade);
-            this.UREs.add(ure);
-        } else {
-            throw new RuntimeException("Não é possível adicionar mais UREs");
+    public URE getURE(int codigoURE) {
+        try {
+            return UREs.get(codigoURE);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe URE com esse código");        
         }
     }
     
-    public void cadastraProdutoURE (int codigoProduto, int codigoURE) {
-        Produto produto = getProduto(codigoProduto);
-        URE ure = getURE(codigoURE);
-        ure.cadastraProduto(produto);
-    }
-    
-    public void cadastraGerenteDeEstoque (String nome) {
-        int size = this.gerentesDeEstoque.size();
-        if (size < 5) {
-            GerenteDeEstoque gerenteDeEstoque = new GerenteDeEstoque(this.gerentesDeEstoque.size(), nome);
-            this.gerentesDeEstoque.add(gerenteDeEstoque);
-        } else {
-            throw new RuntimeException("Não é possível adicionar mais gerentes de estoque");
+    public Loja getLoja(int codigoLoja) {
+        try {
+            return lojas.get(codigoLoja);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe loja com esse código");           
         }
     }
     
-    public void cadastraLoja (double[] posicao) {
-        int size = this.lojas.size();
-        if (size < 5) {
-            Loja loja = new Loja(this.lojas.size(), posicao);
-            this.lojas.add(loja);
-        } else {
-            throw new RuntimeException("Não é possível adicionar mais lojas");
+    public Cliente getCliente(int codigoCliente) {
+        try {
+            return clientes.get(codigoCliente);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe cliente com esse código");            
         }
     }
     
-    public void cadastraProdutoLoja (int codigoProduto, int codigoLoja) {
-        Produto produto = getProduto(codigoProduto);
-        Loja loja = getLoja(codigoLoja);
-        loja.cadastraProduto(produto);
-    }
-       
-    public void cadastraCliente (String nome) {
-        Cliente cliente = new Cliente(this.clientes.size(), nome);
-        this.clientes.add(cliente);
-    }
-    
-    public void cadastraFornecedor (String nome) {
-        Fornecedor fornecedor = new Fornecedor(this.fornecedores.size(), nome);
-        this.fornecedores.add(fornecedor);
-    }
-    
-    public void cadastraProdutoFornecedor (int codigoProduto, int codigoFornecedor, double precoCompra) {
-        Produto produto = getProduto(codigoProduto);
-        Fornecedor fornecedor = getFornecedor(codigoFornecedor);
-        produto.setPrecoCompra(precoCompra);
-        fornecedor.cadastraProduto(produto);
-    }
-    
-    public void cadastraProduto (String nome, double precoVenda, String descricao, String tipo) {
-        Produto produto;
-        switch (tipo) {
-            case "Feira":
-                produto = new Feira(produtos.size(), nome, precoVenda, 0, descricao);
-                break;
-            case "HigieneEPerfumaria":
-                produto = new HigieneEPerfumaria(produtos.size(), nome, precoVenda, 0, descricao);
-                break;
-            case "Limpeza":
-                produto = new Limpeza(produtos.size(), nome, precoVenda, 0, descricao);
-                break;
-            case "Mercearia":
-                produto = new Mercearia(produtos.size(), nome, precoVenda, 0, descricao);
-                break;
-            case "Bebida":
-                produto = new Bebida(produtos.size(), nome, precoVenda, 0, descricao);
-                break;
-            default:
-                throw new IllegalArgumentException("Não existe produto desse tipo");
-        }
-        produtos.add(produto);
-    }
-    
-    public void cadastraFuncionario (String nome) {
-        Funcionario funcionario = new Funcionario(this.funcionarios.size(), nome);
-        this.funcionarios.add(funcionario);
-    }
-    
-    public void listaProdutosUREs () {
-        for (int i = 1; i <= lojas.size(); i++) {
-            System.out.println("---------");
-            System.out.println("Produtos da URE " + i + "\n");
-            getURE(i-1).listaProdutos();
-            System.out.println("---------");
+    public Fornecedor getFornecedor(int codigoFornecedor) {
+        try {
+            return fornecedores.get(codigoFornecedor);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe fornecedor com esse código");           
         }
     }
     
-    public void listaProdutosURE (int codigoURE) {
-        URE ure = getURE(codigoURE);
-        ure.listaProdutos();
-    }
-    
-    public void listarLucroLojas () {
-        for (int i = 1; i <= lojas.size(); i++) {
-            System.out.format("Lucro loja " + i + ": R$%.2f%n", getLoja(i-1).getLucro());
+    public Funcionario getFuncionario(int codigoFuncionario) {
+        try {
+            return funcionarios.get(codigoFuncionario);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe funcionario com esse código"); 
         }
     }
     
-    public void listaLucroLoja (int codigoLoja) {
-        System.out.format("Lucro loja " + (codigoLoja+1) + ": R$%.2f%n", getLoja(codigoLoja).getLucro());
-    }
-    
-    public void listaProdutosLojas () {
-        for (Loja loja : lojas) {
-            System.out.println("---------");
-            loja.listaProdutos();
-            System.out.println("---------");
+    public GerenteDeEstoque getGerenteDeEstoque(int codigoGerenteDeEstoque) {
+        try {
+            return gerentesDeEstoque.get(codigoGerenteDeEstoque);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe gerente de estoque com esse código");
         }
     }
     
-    public void listaProdutosLoja (int codigoLoja) {
-        Loja loja = getLoja(codigoLoja);
-        loja.listaProdutos();
+    public Produto getProduto(int codigoProduto) {
+        try {
+            return produtos.get(codigoProduto);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Não existe produto com esse código");
+        }
     }
     
-    public void consultaEstoque (int codigoLoja, int codigoFuncionario, int codigoProduto) {
-        Loja loja = getLoja(codigoLoja);
-        if (loja != null) {
-            loja.consultaEstoque(codigoFuncionario, codigoProduto);
-        } else {
-            throw new IllegalArgumentException("Loja inválida");
+    public void cadastraURE(String cidade, Point posicao) {
+        if (UREs.size() < 5) {
+            UREs.add(new URE(UREs.size(), cidade, posicao));
+        }
+    }
+    
+    public void cadastraLoja(String cidade, Point posicao) {
+        if (lojas.size() < 5) {
+            lojas.add(new Loja(lojas.size(), cidade, posicao));
+        }
+    }
+    
+    public void cadastraCliente(String nome) {
+        clientes.add(new Cliente(clientes.size(), nome));
+    }
+    
+    public void cadastraFornecedor(String nome) {
+        fornecedores.add(new Fornecedor(fornecedores.size(), nome));
+    }
+    
+    public void cadastraFuncionario(String nome) {
+        funcionarios.add(new Funcionario(funcionarios.size(), nome));
+    }
+    
+    public void cadastraGerenteDeEstoque(String nome) {
+        if (gerentesDeEstoque.size() < 5) {
+            gerentesDeEstoque.add(new GerenteDeEstoque(gerentesDeEstoque.size(), nome));
+        }
+    }
+    
+    public void cadastraProduto(String nome, String descricao, double precoCompra, double precoVenda, int codigoFornecedor, String tipo) {
+        try {
+            Fornecedor fornecedor = getFornecedor(codigoFornecedor);
+            Produto produto = null;
+            switch(tipo) {
+                case "Bebida":
+                    produto = new Bebida(produtos.size(), nome, descricao, precoCompra, precoVenda, codigoFornecedor);
+                    break;
+                case "Feira":
+                    produto = new Feira(produtos.size(), nome, descricao, precoCompra, precoVenda, codigoFornecedor);
+                    break;
+                case "HigieneEPerfumaria":
+                    produto = new HigieneEPerfumaria(produtos.size(), nome, descricao, precoCompra, precoVenda, codigoFornecedor);
+                    break;
+                case "Limpeza":
+                    produto = new Limpeza(produtos.size(), nome, descricao, precoCompra, precoVenda, codigoFornecedor);
+                    break;
+                case "Mercearia":
+                    produto = new Mercearia(produtos.size(), nome, descricao, precoCompra, precoVenda, codigoFornecedor);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Não existe produto desse tipo");
+            }
+            produtos.add(produto);
+            fornecedor.addProduto(produto);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void associaFuncionarioLoja(int codigoFuncionario, int codigoLoja) {
+        try {
+            Loja loja = getLoja(codigoLoja);
+            Funcionario funcionario = getFuncionario(codigoFuncionario);
+            loja.addFuncionario(funcionario);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void associaGerenteDeEstoqueURE(int codigoGerenteDeEstoque, int codigoURE) {
+        try {
+            URE ure = getURE(codigoURE);
+            GerenteDeEstoque gerenteDeEstoque = getGerenteDeEstoque(codigoGerenteDeEstoque);
+            ure.setGerenteDeEstoque(gerenteDeEstoque);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void compraProduto(int codigoGerenteDeEstoque, int codigoProduto, int codigoURE) {
+        try {
+            URE ure = getURE(codigoURE);
+            if (ure.isGerenteDeEstoque(codigoGerenteDeEstoque)) {
+                Produto produto = getProduto(codigoProduto);
+                ure.addProduto(produto);
+                ure.aumentaGasto(produto.getPrecoCompra());
+            } else {
+                System.out.println("Somente o gerente de estoque da URE pode comprar itens pra ela");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

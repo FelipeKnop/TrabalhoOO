@@ -1,35 +1,42 @@
-import java.util.*;
+import java.util.ArrayList;
 
 public class Fornecedor {
+    
     private int codigo;
     private String nome;
-    private List<Produto> produtos;
-    
-    public Fornecedor (int codigo, String nome) {
+    private ArrayList<Produto> produtos;
+
+    public Fornecedor(int codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
-        produtos = new ArrayList<Produto>();
+        this.produtos = new ArrayList<>();
     }
-    
-    public int getCodigo () {
-        return this.codigo;
+
+    public int getCodigo() {
+        return codigo;
     }
-    
-    public String getNome () {
-        return this.nome;
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
-    
-    public void setNome (String nome) {
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    public Produto getProduto (int codigo) {
-        return produtos.get(codigo);
+
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
     }
     
-    public void cadastraProduto (Produto produto) {
-        if (produto != null) {
-            produtos.add(produto);
-        }
+    public void addProduto(Produto produto) {
+        produtos.add(produto);
     }
 }

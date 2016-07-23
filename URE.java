@@ -1,76 +1,81 @@
-import java.util.*;
+import java.awt.Point;
+import java.util.ArrayList;
 
 public class URE {
+    
     private int codigo;
-    private double[] posicao;
     private String cidade;
-    private List<Produto> produtos;
-    private List<Integer> quantidades;
+    private Point posicao;
+    private double gasto;
+    private ArrayList<Produto> produtos;
     private GerenteDeEstoque gerenteDeEstoque;
-    
-    public URE (int codigo, double[] posicao, String cidade) {
+
+    public URE(int codigo, String cidade, Point posicao) {
         this.codigo = codigo;
-        this.posicao = posicao;
         this.cidade = cidade;
-        produtos = new ArrayList<Produto>();
-        quantidades = new ArrayList<Integer>();
-    }
-    
-    public int getCodigo () {
-        return this.codigo;
-    }
-    
-    public double[] getPosicao () {
-        return this.posicao;
-    }
-    
-    public void setPosicao (double[] posicao) {
         this.posicao = posicao;
+        this.gasto = 0;
+        this.produtos = new ArrayList<>();
+        this.gerenteDeEstoque = null;
     }
-    
-    public void setPosicao (double posicaoX, double posicaoY) {
-        double[] aux = {posicaoX, posicaoY};
-        this.posicao = aux;
+
+    public int getCodigo() {
+        return codigo;
     }
-    
-    public String getCidade () {
-        return this.cidade;
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
-    
-    public void setCidade (String cidade) {
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
         this.cidade = cidade;
     }
-    
-    public Produto getProduto (int codigo) {
-        return produtos.get(codigo);
+
+    public Point getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(Point posicao) {
+        this.posicao = posicao;
+    }
+
+    public double getGasto() {
+        return gasto;
+    }
+
+    public void setGasto(double gasto) {
+        this.gasto = gasto;
     }
     
-    public int getQuantidade (int codigo) {
-        return quantidades.get(codigo);
+    public void aumentaGasto(double aumento) {
+        gasto += aumento;
+    }
+
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
     }
     
-    public GerenteDeEstoque getGerenteDeEstoque () {
-        return this.gerenteDeEstoque;
+    public void addProduto(Produto produto) {
+        produtos.add(produto);
     }
-    
-    public void setGerenteDeEstoque (GerenteDeEstoque gerenteDeEstoque) {
+
+    public GerenteDeEstoque getGerenteDeEstoque() {
+        return gerenteDeEstoque;
+    }
+
+    public void setGerenteDeEstoque(GerenteDeEstoque gerenteDeEstoque) {
         this.gerenteDeEstoque = gerenteDeEstoque;
     }
     
-    public void compraProduto (int codigoProduto, int codigoFornecedor, int quantidade) {
-        //Setar preço de compra do produto
-    }
-    
-    public void cadastraProduto (Produto produto) {
-        if (produto != null) {
-            produtos.add(produto);
-        }
-    }
-    
-    public void listaProdutos () {
-        for (Produto produto : this.produtos) {
-            produto.listaProduto();
-            System.out.print("\n");
-        }
+    public boolean isGerenteDeEstoque(int codigoGerenteDeEstoque) {
+        return this.gerenteDeEstoque.getCodigo() == codigoGerenteDeEstoque;
     }
 }
