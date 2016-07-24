@@ -40,4 +40,21 @@ public class Cliente {
         compras.add(produto);
     }
     
+    public int getQuantidade(int codigoProduto) {
+        int quantidade = 0;
+        for (Produto produto : compras) {
+            if (produto.getCodigo() == codigoProduto) {
+                quantidade++;
+            }
+        }
+        return quantidade;
+    }
+    
+    public void aumentaProdutos(Produto produto, int quantidade) {
+        while (quantidade != 0) {
+            addCompra(produto);
+            quantidade--;
+        }
+    }
+    
 }

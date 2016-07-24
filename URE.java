@@ -52,12 +52,25 @@ public class URE {
         this.gasto = gasto;
     }
     
-    public void aumentaGasto(double aumento) {
-        gasto += aumento;
+    public void aumentaGasto(double valor) {
+        gasto += valor;
+    }
+    
+    public void diminuiGasto(double valor) {
+        gasto -= valor;
     }
 
     public LinkedList<Produto> getProdutos() {
         return produtos;
+    }
+    
+    public Produto getProduto(int codigoProduto) {
+        for (Produto produto : produtos) {
+            if (produto.getCodigo() == codigoProduto) {
+                return produto;
+            }
+        }
+        return null;
     }
 
     public void setProdutos(LinkedList<Produto> produtos) {
@@ -112,9 +125,30 @@ public class URE {
         while(iterator.hasNext() && quantidade != 0) {
             Produto produto = iterator.next();
             if (produto.getCodigo() == codigoProduto) {
-                produtos.remove(produto);
+                iterator.remove();
+                quantidade--;
             }
-            quantidade--;
+        }
+    }
+    
+    public LinkedList<Integer> getCodigosProdutos() {
+        LinkedList<Integer> codigos = new LinkedList<>();
+        for (Produto produto : produtos) {
+            int codigoProduto = produto.getCodigo();
+            if (!codigos.contains(codigoProduto)) {
+                codigos.add(codigoProduto);
+            }
+        }
+        return codigos;
+    }
+    
+    public void listaProdutos() {
+        System.out.println("\nProdutos:");
+        LinkedList<Integer> codigos = getCodigosProdutos();
+        for (Integer codigo : codigos) {
+            Produto produto = getProduto(codigo);
+            produto.listaProduto();
+            System.out.println("Quantidade: " + getQuantidade(codigo));
         }
     }
 }

@@ -63,5 +63,11 @@ public abstract class Produto {
     public void setCodigoFornecedor(int codigoFornecedor) {
         this.codigoFornecedor = codigoFornecedor;
     }
+    
+    public void listaProduto() {
+        System.out.println("\nCódigo: " + codigo);
+        System.out.println("Nome: " + nome);
+        System.out.println("Preço de venda: " + String.format("R$%.2f%n", precoVenda));
+    }
 
 }

@@ -1,4 +1,6 @@
 #BlueJ class context
 comment0.params=
-comment0.target=Rede\ realizaTeste()
-numComments=1
+comment0.target=Rede\ testaCriacoes()
+comment1.params=rede
+comment1.target=void\ testaOperacoes(Rede)
+numComments=2

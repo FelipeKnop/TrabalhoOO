@@ -194,7 +194,7 @@ public class TesteUnit
         rede.compraProduto(2, 2, 2, 200);
         rede.compraProduto(1, 3, 3, 100);
         rede.compraProduto(0, 4, 4, 100);
- 
+
         rede.compraProduto(0, 0, 4, 100);
         rede.compraProduto(1, 1, 3, 100);
         rede.compraProduto(2, 2, 2, 200);
@@ -361,22 +361,22 @@ public class TesteUnit
         assertNotNull(rede.getProduto(22));
         assertNotNull(rede.getProduto(23));
     }
-    
+
     @Test
     public void testAssociacaoFuncionarioLoja()
     {
         assertEquals(rede.getLoja(0).getFuncionario(0).getCodigo(), 0);
-        assertEquals(rede.getLoja(0).getFuncionario(1).getCodigo(), 5);
-        assertEquals(rede.getLoja(1).getFuncionario(0).getCodigo(), 1);
-        assertEquals(rede.getLoja(1).getFuncionario(1).getCodigo(), 6);
-        assertEquals(rede.getLoja(2).getFuncionario(0).getCodigo(), 2);
-        assertEquals(rede.getLoja(2).getFuncionario(1).getCodigo(), 7);
-        assertEquals(rede.getLoja(3).getFuncionario(0).getCodigo(), 3);
-        assertEquals(rede.getLoja(3).getFuncionario(1).getCodigo(), 8);
-        assertEquals(rede.getLoja(4).getFuncionario(0).getCodigo(), 4);
-        assertEquals(rede.getLoja(4).getFuncionario(1).getCodigo(), 9);
+        assertEquals(rede.getLoja(0).getFuncionario(5).getCodigo(), 5);
+        assertEquals(rede.getLoja(1).getFuncionario(1).getCodigo(), 1);
+        assertEquals(rede.getLoja(1).getFuncionario(6).getCodigo(), 6);
+        assertEquals(rede.getLoja(2).getFuncionario(2).getCodigo(), 2);
+        assertEquals(rede.getLoja(2).getFuncionario(7).getCodigo(), 7);
+        assertEquals(rede.getLoja(3).getFuncionario(3).getCodigo(), 3);
+        assertEquals(rede.getLoja(3).getFuncionario(8).getCodigo(), 8);
+        assertEquals(rede.getLoja(4).getFuncionario(4).getCodigo(), 4);
+        assertEquals(rede.getLoja(4).getFuncionario(9).getCodigo(), 9);
     }
-    
+
     @Test
     public void testAssociacaoGerenteDeEstoqueURE()
     {
@@ -386,7 +386,7 @@ public class TesteUnit
         assertEquals(rede.getURE(3).getGerenteDeEstoque().getCodigo(), 1);
         assertEquals(rede.getURE(4).getGerenteDeEstoque().getCodigo(), 0);
     }
-    
+
     @Test
     public void testCompraProdutos()
     {
@@ -401,7 +401,7 @@ public class TesteUnit
         assertEquals(rede.getURE(2).getQuantidade(2), 400);
         assertEquals(rede.getURE(3).getQuantidade(1), 100);
         assertEquals(rede.getURE(4).getQuantidade(0), 100);
-        
+
         assertEquals(rede.getURE(0).getQuantidade(5), 400);
         assertEquals(rede.getURE(1).getQuantidade(6), 300);
         assertEquals(rede.getURE(2).getQuantidade(7), 400);
@@ -413,7 +413,7 @@ public class TesteUnit
         assertEquals(rede.getURE(2).getQuantidade(7), 400);
         assertEquals(rede.getURE(3).getQuantidade(6), 100);
         assertEquals(rede.getURE(4).getQuantidade(5), 100);
-        
+
         assertEquals(rede.getURE(0).getQuantidade(10), 400);
         assertEquals(rede.getURE(1).getQuantidade(11), 300);
         assertEquals(rede.getURE(2).getQuantidade(12), 400);
@@ -425,7 +425,7 @@ public class TesteUnit
         assertEquals(rede.getURE(2).getQuantidade(12), 400);
         assertEquals(rede.getURE(3).getQuantidade(11), 100);
         assertEquals(rede.getURE(4).getQuantidade(10), 100);
-        
+
         assertEquals(rede.getURE(0).getQuantidade(15), 400);
         assertEquals(rede.getURE(1).getQuantidade(16), 300);
         assertEquals(rede.getURE(2).getQuantidade(17), 400);
@@ -437,20 +437,120 @@ public class TesteUnit
         assertEquals(rede.getURE(2).getQuantidade(17), 400);
         assertEquals(rede.getURE(3).getQuantidade(16), 100);
         assertEquals(rede.getURE(4).getQuantidade(15), 100);
-        
+
         assertEquals(rede.getURE(0).getQuantidade(20), 400);
         assertEquals(rede.getURE(1).getQuantidade(21), 300);
         assertEquals(rede.getURE(2).getQuantidade(22), 500);
         assertEquals(rede.getURE(3).getQuantidade(23), 100);
-        
+
         assertEquals(rede.getURE(1).getQuantidade(23), 400);
         assertEquals(rede.getURE(2).getQuantidade(22), 500);
         assertEquals(rede.getURE(3).getQuantidade(21), 200);
         assertEquals(rede.getURE(4).getQuantidade(20), 100);
     }
-    
+
+    @Test
+    public void testDistancias() {
+        //Manaus
+        assertEquals(rede.geraListaDistancias(rede.getURE(0).getPosicao()).get(0), rede.getURE(0));
+        assertEquals(rede.geraListaDistancias(rede.getURE(0).getPosicao()).get(1), rede.getURE(4));
+        assertEquals(rede.geraListaDistancias(rede.getURE(0).getPosicao()).get(2), rede.getURE(2));
+        assertEquals(rede.geraListaDistancias(rede.getURE(0).getPosicao()).get(3), rede.getURE(3));
+        assertEquals(rede.geraListaDistancias(rede.getURE(0).getPosicao()).get(4), rede.getURE(1));
+        
+        //Florianópolis
+        assertEquals(rede.geraListaDistancias(rede.getURE(1).getPosicao()).get(0), rede.getURE(1));
+        assertEquals(rede.geraListaDistancias(rede.getURE(1).getPosicao()).get(1), rede.getURE(2));
+        assertEquals(rede.geraListaDistancias(rede.getURE(1).getPosicao()).get(2), rede.getURE(4));
+        assertEquals(rede.geraListaDistancias(rede.getURE(1).getPosicao()).get(3), rede.getURE(3));
+        assertEquals(rede.geraListaDistancias(rede.getURE(1).getPosicao()).get(4), rede.getURE(0));
+        
+        //São Paulo
+        assertEquals(rede.geraListaDistancias(rede.getURE(2).getPosicao()).get(0), rede.getURE(2));
+        assertEquals(rede.geraListaDistancias(rede.getURE(2).getPosicao()).get(1), rede.getURE(1));
+        assertEquals(rede.geraListaDistancias(rede.getURE(2).getPosicao()).get(2), rede.getURE(4));
+        assertEquals(rede.geraListaDistancias(rede.getURE(2).getPosicao()).get(3), rede.getURE(3));
+        assertEquals(rede.geraListaDistancias(rede.getURE(2).getPosicao()).get(4), rede.getURE(0));
+        
+        //Recife
+        assertEquals(rede.geraListaDistancias(rede.getURE(3).getPosicao()).get(0), rede.getURE(3));
+        assertEquals(rede.geraListaDistancias(rede.getURE(3).getPosicao()).get(1), rede.getURE(4));
+        assertEquals(rede.geraListaDistancias(rede.getURE(3).getPosicao()).get(2), rede.getURE(2));
+        assertEquals(rede.geraListaDistancias(rede.getURE(3).getPosicao()).get(3), rede.getURE(1));
+        assertEquals(rede.geraListaDistancias(rede.getURE(3).getPosicao()).get(4), rede.getURE(0));
+        
+        //Goiânia
+        assertEquals(rede.geraListaDistancias(rede.getURE(4).getPosicao()).get(0), rede.getURE(4));
+        assertEquals(rede.geraListaDistancias(rede.getURE(4).getPosicao()).get(1), rede.getURE(2));
+        assertEquals(rede.geraListaDistancias(rede.getURE(4).getPosicao()).get(2), rede.getURE(1));
+        assertEquals(rede.geraListaDistancias(rede.getURE(4).getPosicao()).get(3), rede.getURE(3));
+        assertEquals(rede.geraListaDistancias(rede.getURE(4).getPosicao()).get(4), rede.getURE(0));
+    }
+
     @Test
     public void testEncomendaProdutoURE() {
-        //TODO: Fazer o testa da transferência depois de arrumar ela
+        // Encomenda produto para uma URE (int codigoUREDestino, int codigoProduto, int quantidade)
+        rede.encomendaProdutoURE(0, 1, 100);
+        assertEquals(rede.getURE(0).getQuantidade(1), 100);
+        assertEquals(rede.getURE(1).getQuantidade(1), 200);
+
+        rede.encomendaProdutoURE(0, 2, 200);
+        assertEquals(rede.getURE(0).getQuantidade(2), 200);
+        assertEquals(rede.getURE(2).getQuantidade(2), 200);
+
+        rede.encomendaProdutoURE(1, 0, 200);
+        assertEquals(rede.getURE(1).getQuantidade(0), 200);
+        assertEquals(rede.getURE(0).getQuantidade(0), 200);
+    }
+
+    @Test
+    public void testEncomendaProdutoLoja() {
+        // Encomenda produto para uma loja (int codigoLojaDestino, int codigoProduto, int quantidade)
+        rede.encomendaProdutoLoja(0, 0, 100);
+        assertEquals(rede.getLoja(0).getQuantidade(0), 100);
+        assertEquals(rede.getURE(0).getQuantidade(0), 300);
+
+        rede.encomendaProdutoLoja(0, 1, 100);
+        assertEquals(rede.getLoja(0).getQuantidade(1), 100);
+        assertEquals(rede.getURE(1).getQuantidade(1), 200);
+        
+        rede.encomendaProdutoLoja(0, 2, 100);
+        assertEquals(rede.getLoja(0).getQuantidade(2), 100);
+        assertEquals(rede.getURE(2).getQuantidade(2), 300);
+        
+        rede.encomendaProdutoLoja(0, 3, 100);
+        assertEquals(rede.getLoja(0).getQuantidade(3), 100);
+        assertEquals(rede.getURE(1).getQuantidade(3), 200);
+        
+        rede.encomendaProdutoLoja(0, 4, 100);
+        assertEquals(rede.getLoja(0).getQuantidade(4), 100);
+        assertEquals(rede.getURE(0).getQuantidade(4), 300);
+    }
+    
+    @Test
+    public void testVendeProdutos() {
+        testEncomendaProdutoLoja();
+        
+        // Vende produtos para cliente (int codigoFuncionario, int codigoLoja, int codigoProduto,
+        //                              int codigoCliente, int quantidade)
+        rede.vendeProdutos(0, 0, 0, 0, 20);
+        assertEquals(rede.getLoja(0).getQuantidade(0), 80);
+        assertEquals(rede.getCliente(0).getQuantidade(0), 20);
+        
+        rede.vendeProdutos(5, 0, 1, 1, 20);
+        assertEquals(rede.getLoja(0).getQuantidade(1), 80);
+        assertEquals(rede.getCliente(1).getQuantidade(1), 20);
+        
+        rede.vendeProdutos(0, 0, 2, 2, 20);
+        assertEquals(rede.getLoja(0).getQuantidade(2), 80);
+        assertEquals(rede.getCliente(2).getQuantidade(2), 20);
+        
+        rede.vendeProdutos(5, 0, 3, 3, 20);
+        assertEquals(rede.getLoja(0).getQuantidade(3), 80);
+        assertEquals(rede.getCliente(3).getQuantidade(3), 20);
+        
+        rede.vendeProdutos(0, 0, 4, 4, 20);
+        assertEquals(rede.getLoja(0).getQuantidade(4), 80);
+        assertEquals(rede.getCliente(4).getQuantidade(4), 20);
     }
 }

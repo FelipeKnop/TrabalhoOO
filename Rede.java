@@ -176,7 +176,6 @@ public class Rede {
     }
     
     public void encomendaProdutoURE(int codigoUREDestino, int codigoProduto, int quantidade) {
-        // TODO: Arrumar a transferência
         try {
             URE ure = getURE(codigoUREDestino);
             Point ponto = ure.getPosicao();
@@ -184,8 +183,7 @@ public class Rede {
             for (int i = 1; i < distancias.size(); i++) {
                 if (distancias.get(i).isDisponivel(codigoProduto, quantidade)) {
                     transfereProdutoURE(codigoUREDestino, distancias.get(i).getCodigo(), codigoProduto, quantidade);
-                } else {
-                    continue;
+                    return;
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -193,7 +191,23 @@ public class Rede {
         }
     }
     
-    private ArrayList<URE> geraListaDistancias (Point ponto) {
+    public void encomendaProdutoLoja(int codigoLojaDestino, int codigoProduto, int quantidade) {
+        try {
+            Loja loja = getLoja(codigoLojaDestino);
+            Point ponto = loja.getPosicao();
+            ArrayList<URE> distancias = geraListaDistancias(ponto);
+            for (int i = 0; i < distancias.size(); i++) {
+                if (distancias.get(i).isDisponivel(codigoProduto, quantidade)) {
+                    transfereProdutoLoja(codigoLojaDestino, distancias.get(i).getCodigo(), codigoProduto, quantidade);
+                    return;
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public ArrayList<URE> geraListaDistancias (Point ponto) {
         ArrayList<URE> distancias = new ArrayList<>(UREs);
         Collections.sort(distancias, new Comparator<URE>() {
             @Override
@@ -207,15 +221,78 @@ public class Rede {
     private void transfereProdutoURE(int codigoUREDestino, int codigoUREOrigem, int codigoProduto, int quantidade) {
         try {
             URE ureDestino = getURE(codigoUREDestino);
-            URE ureOrigem = getURE(codigoUREDestino);
+            URE ureOrigem = getURE(codigoUREOrigem);
             if(ureDestino.getQuantidade(codigoProduto) + quantidade < 100) {
-                throw new IllegalArgumentException("Não é possível transferir menos de 100 unidades");
+                throw new IllegalArgumentException("Não é possível deixar essa URE com menos de 100 unidades");
             } else {
+                Produto produto = getProduto(codigoProduto);
                 ureOrigem.diminuiProdutos(codigoProduto, quantidade);
+                ureOrigem.diminuiGasto(produto.getPrecoCompra() * quantidade);
                 ureDestino.aumentaProdutos(getProduto(codigoProduto), quantidade);
+                ureDestino.aumentaGasto(produto.getPrecoCompra() * quantidade);
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    
+    private void transfereProdutoLoja(int codigoLojaDestino, int codigoUREOrigem, int codigoProduto, int quantidade) {
+        try {
+            Loja lojaDestino = getLoja(codigoLojaDestino);
+            URE ureOrigem = getURE(codigoUREOrigem);
+            Produto produto = getProduto(codigoProduto);
+            ureOrigem.diminuiProdutos(codigoProduto, quantidade);
+            ureOrigem.diminuiGasto(produto.getPrecoCompra() * quantidade);
+            lojaDestino.aumentaProdutos(getProduto(codigoProduto), quantidade);
+            lojaDestino.diminuiLucro(produto.getPrecoCompra() * quantidade);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    
+    public void vendeProdutos(int codigoFuncionario, int codigoLoja, int codigoProduto, int codigoCliente, int quantidade) {
+        try {
+            Funcionario funcionario = getFuncionario(codigoFuncionario);
+            Loja loja = getLoja(codigoLoja);
+            Produto produto = getProduto(codigoProduto);
+            Cliente cliente = getCliente(codigoCliente);
+            if (loja.isFuncionario(codigoFuncionario)) {
+                if (loja.getQuantidade(codigoProduto) >= quantidade) {
+                    loja.diminuiProdutos(codigoProduto, quantidade);
+                    cliente.aumentaProdutos(produto, quantidade);
+                } else {
+                    System.out.println("Não há quantidade suficiente desse item para vender. Solicite na URE mais próxima");
+                }
+            } else {
+                System.out.println("Somente funcionários dessa loja podem vender itens dela");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void listaProdutosLoja(int codigoLoja) {
+        try {
+            Loja loja = getLoja(codigoLoja);
+            loja.listaProdutos();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void listaProdutosURE(int codigoURE) {
+        try {
+            URE ure = getURE(codigoURE);
+            ure.listaProdutos();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void imprimeLucroLojas() {
+        for (Loja loja : lojas) {
+            System.out.println("\nCódigo da loja: " + loja.getCodigo());
+            System.out.println("Lucro da loja: " + String.format("R$%.2f%n", loja.getLucro()));
         }
     }
 }
