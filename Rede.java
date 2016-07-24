@@ -1,5 +1,7 @@
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Rede {
     
@@ -12,12 +14,12 @@ public class Rede {
     private final ArrayList<Produto> produtos;
 
     public Rede() {
-        this.UREs = new ArrayList<>();
-        this.lojas = new ArrayList<>();
+        this.UREs = new ArrayList<>(5);
+        this.lojas = new ArrayList<>(5);
         this.clientes = new ArrayList<>();
         this.fornecedores = new ArrayList<>();
         this.funcionarios = new ArrayList<>();
-        this.gerentesDeEstoque = new ArrayList<>();
+        this.gerentesDeEstoque = new ArrayList<>(5);
         this.produtos = new ArrayList<>();
     }
     
@@ -157,18 +159,63 @@ public class Rede {
         }
     }
     
-    public void compraProduto(int codigoGerenteDeEstoque, int codigoProduto, int codigoURE) {
+    public void compraProduto(int codigoGerenteDeEstoque, int codigoProduto, int codigoURE, int quantidade) {
+        // TODO: Implementar quantidade
         try {
             URE ure = getURE(codigoURE);
             if (ure.isGerenteDeEstoque(codigoGerenteDeEstoque)) {
                 Produto produto = getProduto(codigoProduto);
-                ure.addProduto(produto);
-                ure.aumentaGasto(produto.getPrecoCompra());
+                ure.aumentaGasto(produto.getPrecoCompra() * quantidade);
+                ure.aumentaProdutos(produto, quantidade);
             } else {
                 System.out.println("Somente o gerente de estoque da URE pode comprar itens pra ela");
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+        }
+    }
+    
+    public void encomendaProdutoURE(int codigoUREDestino, int codigoProduto, int quantidade) {
+        // TODO: Arrumar a transferência
+        try {
+            URE ure = getURE(codigoUREDestino);
+            Point ponto = ure.getPosicao();
+            ArrayList<URE> distancias = geraListaDistancias(ponto);
+            for (int i = 1; i < distancias.size(); i++) {
+                if (distancias.get(i).isDisponivel(codigoProduto, quantidade)) {
+                    transfereProdutoURE(codigoUREDestino, distancias.get(i).getCodigo(), codigoProduto, quantidade);
+                } else {
+                    continue;
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private ArrayList<URE> geraListaDistancias (Point ponto) {
+        ArrayList<URE> distancias = new ArrayList<>(UREs);
+        Collections.sort(distancias, new Comparator<URE>() {
+            @Override
+            public int compare(URE ure1, URE ure2) {
+                return ((Double) ure1.getPosicao().distance(ponto)).compareTo(((Double) ure2.getPosicao().distance(ponto)));
+            }
+        });
+        return distancias;
+    }
+    
+    private void transfereProdutoURE(int codigoUREDestino, int codigoUREOrigem, int codigoProduto, int quantidade) {
+        try {
+            URE ureDestino = getURE(codigoUREDestino);
+            URE ureOrigem = getURE(codigoUREDestino);
+            if(ureDestino.getQuantidade(codigoProduto) + quantidade < 100) {
+                throw new IllegalArgumentException("Não é possível transferir menos de 100 unidades");
+            } else {
+                ureOrigem.diminuiProdutos(codigoProduto, quantidade);
+                ureDestino.aumentaProdutos(getProduto(codigoProduto), quantidade);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 }

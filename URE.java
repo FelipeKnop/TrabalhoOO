@@ -1,5 +1,6 @@
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Iterator;
 
 public class URE {
     
@@ -7,7 +8,7 @@ public class URE {
     private String cidade;
     private Point posicao;
     private double gasto;
-    private ArrayList<Produto> produtos;
+    private LinkedList<Produto> produtos;
     private GerenteDeEstoque gerenteDeEstoque;
 
     public URE(int codigo, String cidade, Point posicao) {
@@ -15,7 +16,7 @@ public class URE {
         this.cidade = cidade;
         this.posicao = posicao;
         this.gasto = 0;
-        this.produtos = new ArrayList<>();
+        this.produtos = new LinkedList<>();
         this.gerenteDeEstoque = null;
     }
 
@@ -55,16 +56,17 @@ public class URE {
         gasto += aumento;
     }
 
-    public ArrayList<Produto> getProdutos() {
+    public LinkedList<Produto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(ArrayList<Produto> produtos) {
+    public void setProdutos(LinkedList<Produto> produtos) {
         this.produtos = produtos;
     }
     
     public void addProduto(Produto produto) {
-        produtos.add(produto);
+        produtos.addLast(produto); // Adiciona na última posição
+        //produtos.addFirst(produto); // Adiciona na primeira posição
     }
 
     public GerenteDeEstoque getGerenteDeEstoque() {
@@ -77,5 +79,42 @@ public class URE {
     
     public boolean isGerenteDeEstoque(int codigoGerenteDeEstoque) {
         return this.gerenteDeEstoque.getCodigo() == codigoGerenteDeEstoque;
+    }
+    
+    public int getQuantidade(int codigoProduto) {
+        int quantidade = 0;
+        for (Produto produto : produtos) {
+            if (produto.getCodigo() == codigoProduto) {
+                quantidade++;
+            }
+        }
+        return quantidade;
+    }
+    
+    public boolean isDisponivel(int codigoProduto, int quantidade) {
+        int quantidadeDisponivel = getQuantidade(codigoProduto);
+        if (quantidadeDisponivel - 100 >= quantidade) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public void aumentaProdutos(Produto produto, int quantidade) {
+        while (quantidade != 0) {
+            addProduto(produto);
+            quantidade--;
+        }
+    }
+    
+    public void diminuiProdutos(int codigoProduto, int quantidade) {
+        Iterator<Produto> iterator = produtos.iterator();
+        while(iterator.hasNext() && quantidade != 0) {
+            Produto produto = iterator.next();
+            if (produto.getCodigo() == codigoProduto) {
+                produtos.remove(produto);
+            }
+            quantidade--;
+        }
     }
 }

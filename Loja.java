@@ -70,6 +70,10 @@ public class Loja {
     public ArrayList<Funcionario> getFuncionarios() {
         return funcionarios;
     }
+    
+    public Funcionario getFuncionario(int indiceFuncionario) {
+        return funcionarios.get(indiceFuncionario);
+    }
 
     public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
