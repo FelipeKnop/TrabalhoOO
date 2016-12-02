@@ -160,7 +160,6 @@ public class Rede {
     }
     
     public void compraProduto(int codigoGerenteDeEstoque, int codigoProduto, int codigoURE, int quantidade) {
-        // TODO: Implementar quantidade
         try {
             URE ure = getURE(codigoURE);
             if (ure.isGerenteDeEstoque(codigoGerenteDeEstoque)) {
@@ -207,7 +206,7 @@ public class Rede {
         }
     }
     
-    public ArrayList<URE> geraListaDistancias (Point ponto) {
+    public ArrayList<URE> geraListaDistancias (final Point ponto) {
         ArrayList<URE> distancias = new ArrayList<>(UREs);
         Collections.sort(distancias, new Comparator<URE>() {
             @Override
@@ -228,7 +227,10 @@ public class Rede {
                 Produto produto = getProduto(codigoProduto);
                 ureOrigem.diminuiProdutos(codigoProduto, quantidade);
                 ureOrigem.diminuiGasto(produto.getPrecoCompra() * quantidade);
-                ureDestino.aumentaProdutos(getProduto(codigoProduto), quantidade);
+                //Alteração preço de compra
+                produto.setPrecoCompra(produto.getPrecoCompra() * 1.1);
+                //Alteração prioridade
+                ureDestino.aumentaProdutosComPrioridade(getProduto(codigoProduto), quantidade);
                 ureDestino.aumentaGasto(produto.getPrecoCompra() * quantidade);
             }
         } catch (IllegalArgumentException e) {
@@ -243,6 +245,8 @@ public class Rede {
             Produto produto = getProduto(codigoProduto);
             ureOrigem.diminuiProdutos(codigoProduto, quantidade);
             ureOrigem.diminuiGasto(produto.getPrecoCompra() * quantidade);
+            //Alteração preço de compra
+            produto.setPrecoCompra(produto.getPrecoCompra() * 1.1);
             lojaDestino.aumentaProdutos(getProduto(codigoProduto), quantidade);
             lojaDestino.diminuiLucro(produto.getPrecoCompra() * quantidade);
         } catch (IllegalArgumentException e) {
@@ -259,6 +263,7 @@ public class Rede {
             if (loja.isFuncionario(codigoFuncionario)) {
                 if (loja.getQuantidade(codigoProduto) >= quantidade) {
                     loja.diminuiProdutos(codigoProduto, quantidade);
+                    loja.aumentaLucro(produto.getPrecoVenda() * quantidade);
                     cliente.aumentaProdutos(produto, quantidade);
                 } else {
                     System.out.println("Não há quantidade suficiente desse item para vender. Solicite na URE mais próxima");
@@ -293,6 +298,26 @@ public class Rede {
         for (Loja loja : lojas) {
             System.out.println("\nCódigo da loja: " + loja.getCodigo());
             System.out.println("Lucro da loja: " + String.format("R$%.2f%n", loja.getLucro()));
+        }
+    }
+    
+    //Alteração loja com maior lucro
+    public void imprimeLojaMaiorLucro() {
+        ArrayList<Loja> lucros = new ArrayList<>(lojas);
+        Collections.sort(lucros, new Comparator<Loja>() {
+            @Override
+            public int compare(Loja loja1, Loja loja2) {
+                return ((Double) loja1.getLucro()).compareTo(((Double) loja2.getLucro()));
+            }
+        });
+        Loja ultimaLoja = lucros.get(lucros.size()-1);
+        double maiorLucro = ultimaLoja.getLucro();
+        System.out.println("Loja com o maior lucro: ");
+        for (Loja loja : lucros) {
+            if(loja.getLucro() == maiorLucro) {
+                System.out.println("\nCódigo: " + loja.getCodigo());
+                System.out.println("Lucro: " + maiorLucro);
+            }
         }
     }
 }

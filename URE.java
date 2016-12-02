@@ -79,7 +79,10 @@ public class URE {
     
     public void addProduto(Produto produto) {
         produtos.addLast(produto); // Adiciona na última posição
-        //produtos.addFirst(produto); // Adiciona na primeira posição
+    }
+    
+    public void addProdutoFirst(Produto produto) {
+        produtos.addFirst(produto); // Adiciona na primeira posição
     }
 
     public GerenteDeEstoque getGerenteDeEstoque() {
@@ -116,6 +119,13 @@ public class URE {
     public void aumentaProdutos(Produto produto, int quantidade) {
         while (quantidade != 0) {
             addProduto(produto);
+            quantidade--;
+        }
+    }
+    
+    public void aumentaProdutosComPrioridade(Produto produto, int quantidade) {
+        while (quantidade != 0) {
+            addProdutoFirst(produto);
             quantidade--;
         }
     }
